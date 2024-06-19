@@ -45,21 +45,38 @@ async function fetchWorks() {
   // Génération du menu de catégories
   function generateCategoryMenu(categories) {
     const categoryMenu = document.createElement('div');
-    categoryMenu.classList.add('category-menu');
+    categoryMenu.classList.add('filter-list');
+
+    function removeActivatedClass(){
+      const activatedButtonCat = document.getElementsByClassName('activated-button')[0];
+      activatedButtonCat.classList.remove('activated-button');
+    }
   
     const allCategoriesButton = document.createElement('button');
-    allCategoriesButton.textContent = 'Toutes les catégories';
-    allCategoriesButton.addEventListener('click', () => displayWorks(works));
+    allCategoriesButton.textContent = 'Tous';
+    allCategoriesButton.classList.add('filter-button');
+    allCategoriesButton.classList.add('activated-button');
+    allCategoriesButton.addEventListener('click', () => {
+      displayWorks(works);
+      removeActivatedClass();
+      allCategoriesButton.classList.add('activated-button');
+    });
     categoryMenu.appendChild(allCategoriesButton);
   
     categories.forEach(category => {
       const categoryButton = document.createElement('button');
       categoryButton.textContent = category.name;
-      categoryButton.addEventListener('click', () => filterWorksByCategory(category.id));
+      categoryButton.classList.add('filter-button');
+      categoryButton.addEventListener('click', () => {
+        filterWorksByCategory(category.id);
+        removeActivatedClass();
+        categoryButton.classList.add('activated-button');
+      });
       categoryMenu.appendChild(categoryButton);
     });
   
-    document.body.appendChild(categoryMenu);
+    const filterContainer = document.getElementById('filter-container');
+    filterContainer.appendChild(categoryMenu);
   }
   
   // Filtrage des travaux par catégorie
@@ -68,15 +85,20 @@ async function fetchWorks() {
     displayWorks(filteredWorks);
   }
   
-  // Récupération des travaux et des catégories, puis affichage initial
-  fetchWorks()
-    .then(fetchedWorks => {
-      works = fetchedWorks;
-      displayWorks(works);
-      return fetchCategories();
-    })
-    .then(fetchedCategories => {
-      categories = fetchedCategories;
-      generateCategoryMenu(categories);
-    })
-    .catch(error => console.error(error));
+  // Fonction d'initialisation
+  function init() {
+    fetchWorks()
+      .then(fetchedWorks => {
+        works = fetchedWorks;
+        displayWorks(works);
+        return fetchCategories();
+      })
+      .then(fetchedCategories => {
+        categories = fetchedCategories;
+        generateCategoryMenu(categories);
+      })
+      .catch(error => console.error(error));
+  }
+  
+  // Appel de la fonction d'initialisation lors du chargement de la page
+  document.addEventListener('DOMContentLoaded', init);
