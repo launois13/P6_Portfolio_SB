@@ -36,9 +36,10 @@
 			<h2>Log in</h2>
 			<form id="form-login">
 				<label for="email">E-mail</label>
-				<input type="text" name="email" id="email" autocomplete="email">
+				<input class="inputs-login" type="email" name="email" id="email" autocomplete="email">
 				<label for="password">Mot de passe</label>
-				<input type="password" name="password" id="password" autocomplete="password">
+				<input class="inputs-login" type="password" name="password" id="password" autocomplete="password">
+				<p id="error-message"></p>
 				<input type="submit" value="Se connecter">
 				<a href="#">Mot de passe oublié</a>
 			</form>
@@ -52,7 +53,7 @@
 			</ul>
 		</nav>
 	</footer>
-	<script src="login.js"></script>
+	<script src="/js/login.js"></script>
 </body>
 
 </html>
