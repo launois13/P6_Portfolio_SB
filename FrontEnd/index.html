@@ -39,7 +39,7 @@
         <div id="modal" class="modal">
             <div class="modal-content">
                 <button id="close-modal">
-                    <img src="./assets/icons/cross.svg" alt="cross">
+                    <img src="./assets/icons/cross.svg" alt="fermeture">
                 </button>
                 <!-- Contenu dynamique ici -->
                 <div id="gallery-page" class="active">
@@ -50,13 +50,16 @@
                 </div>
                 <div id="add-photo-page" style="display: none;">
                     <h2>Ajout photo</h2>
+                    <button id="back-modal">
+                        <img src="./assets/icons/arrow-left.svg" alt="retour">
+                    </button>
                     <form>
                         <input type="file" name="photo" id="photo">
                         <input type="text" name="title" id="title">
                         <select name="categories" id="categories">
                             <option value="1">Objets</option>
                             <option value="2">Appartements</option>
-                            <option value="2">Hotels & Resto</option>
+                            <option value="2">Hotels & Restaurants</option>
                         </select>
                         <button id="nav-gallery" class="button" type="submit">Valider</button>
                     </form>

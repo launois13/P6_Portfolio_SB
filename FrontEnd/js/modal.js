@@ -18,6 +18,7 @@ function renderAllWorks(works) {
         img.alt = work.title;
 
         const deleteBtn = document.createElement('button');
+        deleteBtn.type = 'button';
         deleteBtn.classList.add('delete-work');
         deleteBtn.addEventListener('click', () => deleteWork(work.id));
 
@@ -49,12 +50,13 @@ function getWorks() {
 function openModal() {
     const buttonOpen = document.getElementById('open-modal');
     const buttonClose = document.getElementById('close-modal');
+    const buttonBack = document.getElementById('back-modal');
     const modal = document.getElementById('modal');
 
     buttonOpen.addEventListener('click', () => {
-        document.body.style.overflowY = "hidden";
+        document.body.style.overflowY = "hidden"; // Empêcher le défilement de la page
         modal.classList.add('open-modal');
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 0); // Remonter en haut de la page
         getWorks(); // Assurez-vous que cette ligne est présente
         renderPage('gallery'); // Afficher la page de la galerie par défaut
     });
@@ -62,6 +64,10 @@ function openModal() {
     buttonClose.addEventListener('click', () => {
         document.body.style.overflowY = "scroll";
         modal.classList.remove('open-modal');
+    });
+
+    buttonBack.addEventListener('click', () => {
+        renderPage('gallery');
     });
 
     modal.addEventListener('click', (e) => {
@@ -79,7 +85,7 @@ function deleteWork(workId) {
     fetch(`http://localhost:5678/api/works/${workId}`, {
         method: 'DELETE',
         headers: {
-            "Authorization": `Baerer ${token}`
+            "Authorization": `Bearer ${token}`
         }
     })
     .then(response => {
@@ -107,7 +113,7 @@ function renderPage(page) {
     }
 }
 
-// Assurez-vous que le script s'exécute après le chargement complet du DOM
+// Vérifier que le script s'exécute après le chargement complet du DOM
 document.addEventListener('DOMContentLoaded', () => {
     // Initialisation de la modale
     openModal();

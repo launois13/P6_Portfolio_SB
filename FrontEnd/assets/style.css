@@ -119,9 +119,11 @@ li:hover {
     background-color: #000;
     color: #fff;
     height: 59px;
+	padding-right: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
+	gap: 10px;
 }
 
 #introduction {
@@ -263,16 +265,9 @@ li:hover {
 	text-align: center;
 }
 
-#modal #close-modal{
-	background-color: transparent;
-	border: none;
-	cursor: pointer;
-}
-
 .open-modal{
 	display: flex !important;
 }
-
 /* Modal */
 #modal {
     position: fixed;
@@ -372,8 +367,24 @@ li:hover {
     font-size: 24px;
 }
 
+#back-modal {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+#open-modal {
+	align-items: flex-end;
+	display: flex;
+	gap: 10px;
+}
+
 .open-modal {
-    display: flex !important;
+	display: flex !important;
 }
 
 #gallery-page, #add-photo-page{

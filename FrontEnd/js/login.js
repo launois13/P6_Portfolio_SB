@@ -34,7 +34,7 @@ function submitLogin(){
                     // enregistrer le token dans le sessionStorage
                     sessionStorage.setItem("token", loginData.token);
                     // redirection vers la page d'accueil
-                    window.location.href = "/FrontEnd/index.html";
+                    window.location.href = "/index.html";
                 } else if (response.status === 404) {
                     errorDiv.style.display = "block";
                     errorDiv.innerText = "Aucun utilisateur n'a été trouvé avec cette adresse email.";
@@ -43,7 +43,7 @@ function submitLogin(){
                     console.error('Erreur lors de la connexion :', loginData.message);
                 } else if (response.status === 401) {
                     errorDiv.style.display = "block";
-                    errorDiv.innerText = "Veuillez entrer un mot de passe corrects.";
+                    errorDiv.innerText = "Veuillez entrer un mot de passe correct.";
                     inputs[0].style.border = "1px solid red";
                     inputs[1].style.border = "1px solid red";
                     console.error('Erreur lors de la connexion :', loginData.error);
