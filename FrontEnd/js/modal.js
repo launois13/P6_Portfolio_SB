@@ -54,9 +54,9 @@ function openModal() {
     const modal = document.getElementById('modal');
 
     buttonOpen.addEventListener('click', () => {
-        document.body.style.overflowY = "hidden"; // Empêcher le défilement de la page
+        //document.body.style.overflowY = "hidden"; // Empêcher le défilement de la page
         modal.classList.add('open-modal');
-        window.scrollTo(0, 0); // Remonter en haut de la page
+       // window.scrollTo(0, 0); // Remonter en haut de la page
         getWorks(); // Assurez-vous que cette ligne est présente
         renderPage('gallery'); // Afficher la page de la galerie par défaut
     });
