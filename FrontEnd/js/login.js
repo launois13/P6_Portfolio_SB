@@ -37,20 +37,20 @@ function submitLogin(){
                     window.location.href = "/index.html";
                 } else if (response.status === 404) {
                     errorDiv.style.display = "block";
-                    errorDiv.innerText = "Aucun utilisateur n'a été trouvé avec cette adresse email.";
+                    errorDiv.innerText = "Veuillez entrer une adresse email et un mot de passe corrects";
                     inputs[0].style.border = "1px solid red";
                     inputs[1].style.border = "1px solid red";
                     console.error('Erreur lors de la connexion :', loginData.message);
                 } else if (response.status === 401) {
                     errorDiv.style.display = "block";
-                    errorDiv.innerText = "Veuillez entrer un mot de passe correct.";
+                    errorDiv.innerText = "Veuillez entrer une adresse email et un mot de passe corrects";
                     inputs[0].style.border = "1px solid red";
                     inputs[1].style.border = "1px solid red";
                     console.error('Erreur lors de la connexion :', loginData.error);
                 }
               } catch (error) {
                 errorDiv.style.display = "block";
-                errorDiv.innerText = "Veuillez entrer une adresse email et un mot de passe corrects.";
+                errorDiv.innerText = "Veuillez entrer une adresse email et un mot de passe corrects";
                 inputs[0].style.border = "1px solid red";
                 inputs[1].style.border = "1px solid red";
                 console.error('Erreur lors de la connexion :', error);
