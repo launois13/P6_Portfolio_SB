@@ -1,4 +1,4 @@
-import { fetchWorks } from "./gallery.js";
+import { fetchWorks, init } from "./gallery.js";
 
 // Fonction pour afficher toutes les photos avec les corbeilles
 function renderAllWorks(works) {
@@ -59,6 +59,7 @@ function openModal() {
        // window.scrollTo(0, 0); // Remonter en haut de la page
         getWorks(); // Assurez-vous que cette ligne est présente
         renderPage('gallery'); // Afficher la page de la galerie par défaut
+        createWork();
     });
 
     buttonClose.addEventListener('click', () => {
@@ -92,11 +93,58 @@ function deleteWork(workId) {
         if (response.ok) {
             console.log(`Work with id ${workId} deleted`);
             getWorks(); // Refresh the gallery after deletion
+            init();
         } else {
             console.error('Failed to delete work');
         }
     })
     .catch(error => console.error('Error:', error));
+}
+
+// Fonction de création d'un travail
+function createWork(){
+    const form = document.getElementById('form-create-work');
+    const inputFile = document.getElementById('file');
+
+    inputFile.addEventListener('change', (e)=>{
+        const previewImg = document.getElementById('image-preview');
+        const uploadSetup = document.getElementById('upload-file');
+        previewImg.src = URL.createObjectURL(form.elements[0].files[0])
+        previewImg.style.display = 'block';
+        uploadSetup.style.display = 'none';
+    }, true)
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const image = form.elements[0];
+        const title = form.elements[1];
+        const categoryId = form.elements[2];
+
+        //TODO: Vérifier le titre, l'image et la categorie...
+
+        // Récupération du token
+        const token = sessionStorage.getItem("token");
+
+        // Creation du formData
+        const formData = new FormData();
+        formData.append("image", image.files[0]);
+        formData.append("title", title.value);
+        formData.append("category", categoryId.value);
+
+        fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            body: formData,
+          })
+          .then(response => {
+            console.info(response);
+            getWorks(); // Refresh the gallery after deletion
+            init();
+        })
+        .catch(error => console.error('Error:', error));
+    })
 }
 
 // Fonction de rendu pour les deux pages

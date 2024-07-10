@@ -202,8 +202,12 @@ li:hover {
 }
 
 .gallery img {
-	width: 100%;
+	height: 407px;
+	width: 304px;
+}
 
+#upload-file{
+	display: contents;
 }
 
 #login {
@@ -243,43 +247,39 @@ li:hover {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
+/* Modal */
 #modal {
-	position: absolute;
-	display: flex;
+	position: fixed;
+	display: none;
 	justify-content: center;
 	align-items: center;
 	top: 0;
 	left: 0;
 	background-color: rgba(0, 0, 0, 0.5);
-	width: 100vw;
-	height: 100vh;
-	display: none;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+	overflow: auto;
 }
 
-#modal > div{
+#modal > div {
 	width: 630px;
 	height: 688px;
 	border-radius: 10px;
 	border: solid 1px #000;
 	background-color: #fff;
+}
+
+#modal h2 {
 	text-align: center;
 }
 
-.open-modal{
-	display: flex !important;
+#modal #nav-add-photo, #modal #nav-gallery{
+	min-width: 237px;
 }
-/* Modal */
-#modal {
-    position: fixed;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100vw;
-    height: 100vh;
-    z-index: 1000;
+
+.open-modal {
+	display: flex !important;
 }
 
 .modal-content {
@@ -287,7 +287,6 @@ li:hover {
     width: 630px;
     max-height: 731px;
     border-radius: 10px;
-    text-align: center;
     overflow-y: auto;
     position: relative;
 }
@@ -304,7 +303,7 @@ li:hover {
     display: flex;
 	flex-wrap: wrap;
     gap: 29px 9px;
-    margin-bottom: 67px;
+    margin-bottom: 20px;
 	padding: 46px 105px 0 105px;
 }
 
@@ -340,7 +339,7 @@ li:hover {
     width: 420px;
     height: 1px;
     background-color: #B3B3B3;
-    margin: 0 auto 38px;
+    margin: 45px auto 38px;
 }
 
 .button {
@@ -400,7 +399,7 @@ input[type="submit"]{
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2em auto ;
+	margin : 1.8em auto ;
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
@@ -418,3 +417,76 @@ footer nav ul {
     font-size: 14px;
     font-weight: 300;
 }
+
+/* Modal 2 */
+
+#add-photo-page form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 10px;
+	margin: 0 auto;
+	width: 420px;
+
+}
+
+#add-photo-page form > div.container-file {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 36px auto 30px auto ;
+	border-radius: 3px;
+	width: 420px;
+	height: 169px;
+	background-color: #E8F1F6;
+	overflow: hidden;
+}
+
+#add-photo-page form .container-file label {
+	background-color: #CBD6DC;
+	color: #306685;
+	border-radius: 50px;
+	padding: 10px 33px;
+	font-size: 14px;
+    font-family: 'Work Sans', sans-serif;
+}
+
+#add-photo-page form input[type=text], #add-photo-page form select  {
+	border: none;
+	box-shadow: 0px 4px 14px 0px #00000017;
+	background-color: #fff;
+	padding: 18px 16px;
+	font-size: 14px;
+    font-family: 'Work Sans', sans-serif;
+	color: #444444;
+}
+
+#add-photo-page form .container-file #icon-preview {
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+
+#add-photo-page form .container-file #image-preview {
+	display: none;
+	width: 129px;
+	height: 169px;
+}
+
+#add-photo-page form .container-file #image-details {
+	margin-top: 10px;
+	font-size: 10px;
+	color: #444444;
+}
+
+#add-photo-page form .container-file input[type=file] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+/*To Do : taille de l'image ; cacher "aperçu de l'image" le JS gèrera l'affichage de l'image*/
+/*To Do : style du bouton valider (gris tant que touts les champs ne sont pas remplis correctement
+vert #1D6154 qd tout est ok*/

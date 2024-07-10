@@ -104,4 +104,4 @@ async function fetchWorks() {
   // Appel de la fonction d'initialisation lors du chargement de la page
   document.addEventListener('DOMContentLoaded', init);
 
-  export { fetchWorks };
+  export { fetchWorks, init };

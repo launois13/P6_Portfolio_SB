@@ -48,27 +48,36 @@
                     <div class="separator"></div>
                     <button id="nav-add-photo" class="button">Ajouter une photo</button>
                 </div>
-                <div id="add-photo-page" style="display: none;">
+                <div id="add-photo-page">
                     <h2>Ajout photo</h2>
                     <button id="back-modal">
                         <img src="./assets/icons/arrow-left.svg" alt="retour">
                     </button>
-                    <form>
-                        <div class="containerFile">
-                            <img src="./assets/icons/add-image.svg" alt="ajout photo">
+                    <form id="form-create-work">
+                        <div class="container-file">
+                            <div id="upload-file">
+                                <img id="icon-preview" src="./assets/icons/add-image.svg" alt="ajout photo">
+                                <label for="file">+ Ajouter photo</label>
+                                <input type="file" name="file" id="file">
+                            </div>
+                            <img id="image-preview" src="#" alt="Aperçu de l'image">
+                            <p id="image-details">jpg, png : 4mo max</p>
                         </div>
-                        <input type="file" name="photo" id="photo">
+                        <label for="title">Titre</label>
                         <input type="text" name="title" id="title">
+                        <label for="categories">Categorie</label>
                         <select name="categories" id="categories">
                             <option selected disabled></option>
                             <option value="1">Objets</option>
                             <option value="2">Appartements</option>
                             <option value="3">Hotels & Restaurants</option>
                         </select>
-                        <button id="nav-gallery" class="button" type="submit">Valider</button>
+                        <div class="separator"></div>
+                        <input id="nav-gallery" class="button" type="submit" value="Valider">
                     </form>
                 </div>
             </div>
+        </div>
         </div>
 
         <section id="introduction">
