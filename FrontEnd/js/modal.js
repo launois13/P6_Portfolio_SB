@@ -1,5 +1,7 @@
 import { fetchWorks, init } from "./gallery.js";
 
+let isRunning = false;
+
 // Fonction pour afficher toutes les photos avec les corbeilles
 function renderAllWorks(works) {
     const galleryContainer = document.querySelector('.gallery-modal');
@@ -46,6 +48,21 @@ function getWorks() {
     .catch(error => console.error(error));
 }
 
+// Fonction pour réinitialiser la modale de prévisualisation
+function resetPreviewModal() {
+    const previewImg = document.getElementById('image-preview');
+    const uploadSetup = document.getElementById('upload-file');
+    const titleInput = document.getElementById('title');
+    const categorySelect = document.getElementById('categories');
+
+    previewImg.src = "./assets/icons/add-image.svg"; // Changer le chemin de l'icône si nécessaire
+    previewImg.style.display = 'block';
+    uploadSetup.style.display = 'none';
+    titleInput.value = "";
+    categorySelect.selectedIndex = 0;
+    console.log("pouet")
+}
+
 // Fonction pour ouvrir la modale
 function openModal() {
     const buttonOpen = document.getElementById('open-modal');
@@ -59,7 +76,6 @@ function openModal() {
        // window.scrollTo(0, 0); // Remonter en haut de la page
         getWorks(); // Assurez-vous que cette ligne est présente
         renderPage('gallery'); // Afficher la page de la galerie par défaut
-        createWork();
     });
 
     buttonClose.addEventListener('click', () => {
@@ -100,17 +116,24 @@ function deleteWork(workId) {
     })
     .catch(error => console.error('Error:', error));
 }
-
-// Fonction de création d'un travail
+const inputFile = document.getElementById('file');
+//Fonction de création d'un travail
 function createWork(){
+
+    if (isRunning) return;
+
+    isRunning = true;
+    console.log("createWork demaree");
+
     const form = document.getElementById('form-create-work');
-    const inputFile = document.getElementById('file');
+    
 
     inputFile.addEventListener('change', (e)=>{
         const previewImg = document.getElementById('image-preview');
         const uploadSetup = document.getElementById('upload-file');
         previewImg.src = URL.createObjectURL(form.elements[0].files[0])
-        previewImg.style.display = 'block';
+        // previewresetPreviewModal();Img.style.display = 'block';
+        previewImg.style.display = 'block'
         uploadSetup.style.display = 'none';
     }, true)
 
@@ -139,11 +162,21 @@ function createWork(){
             body: formData,
           })
           .then(response => {
+            const previewImg = document.getElementById('image-preview');
+            title.value = "";
+            document.getElementById('categories').selectedIndex = 0;
+            previewImg.src = "";
+            previewImg.style.display = 'none';
+            document.getElementById('upload-file').style.display = 'flex';
             console.info(response);
             getWorks(); // Refresh the gallery after deletion
             init();
+            const modal = document.getElementById('modal');
+            resetPreviewModal(); // Réinitialiser la modale de prévisualisation était en ligne 171 avant
+            modal.classList.remove('open-modal'); // Fermer la modale après ajout était en ligne 170 avant pas mieux
         })
         .catch(error => console.error('Error:', error));
+        console.log("ouhlala")
     })
 }
 
@@ -158,15 +191,63 @@ function renderPage(page) {
     } else if (page === 'add-photo') {
         galleryPage.classList.remove('active');
         addPhotoPage.classList.add('active');
+        createWork();
     }
 }
+
+
+inputFile.addEventListener('change', (e) => {
+    const previewImg = document.getElementById('image-preview');
+    const uploadSetup = document.getElementById('upload-file');
+    const file = e.target.files[0];
+
+    // Vérifiez si un fichier est sélectionné
+    if (file) {
+        // Vérifiez si le fichier est une image
+        if (file.type == "image/png" || file.type == "image/jpeg") {
+            previewImg.src = URL.createObjectURL(file);
+            previewImg.style.display = 'block';
+            uploadSetup.style.display = 'none';
+        } else {
+            alert('Veuillez sélectionner un fichier image.');
+        }
+    }
+});
 
 // Vérifier que le script s'exécute après le chargement complet du DOM
 document.addEventListener('DOMContentLoaded', () => {
     // Initialisation de la modale
     openModal();
 
+// img field
+const imgUpload = document.getElementById("file");
+// title
+const title = document.getElementById("title");
+// option select
+const option = document.getElementById("categories");
+// input "valider"
+const uploadImg = document.getElementById("nav-gallery");
+
+// Check if all fields are filled before allowing to send
+function checkFields() {
+    if (title.value !== "" && option.selectedIndex !== 0 && imgUpload.files.length !== 0) {
+        uploadImg.removeAttribute("disabled");
+    } else {
+        uploadImg.setAttribute("disabled", true);
+    }
+}
+
+// Appelle cette fonction au chargement de la page pour réinitialiser la modale de prévisualisation
+document.addEventListener('DOMContentLoaded', () => {
+    resetPreviewModal();
+});
+
+title.addEventListener("input", checkFields);
+option.addEventListener("change", checkFields);
+imgUpload.addEventListener("change", checkFields);
+
     // Ajouter les événements pour naviguer entre les pages de la modale
     document.getElementById('nav-gallery').addEventListener('click', () => renderPage('gallery'));
     document.getElementById('nav-add-photo').addEventListener('click', () => renderPage('add-photo'));
 });
+

@@ -278,9 +278,9 @@ li:hover {
 	min-width: 237px;
 }
 
-.open-modal {
+/* .open-modal {
 	display: flex !important;
-}
+} */
 
 .modal-content {
     background-color: #FFFFFF;
@@ -405,6 +405,10 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
+input[type="submit"]:disabled{
+	background-color: #A7A7A7;
+}
+
 footer{
     height: 60px;
 }
@@ -488,5 +492,5 @@ footer nav ul {
 }
 
 /*To Do : taille de l'image ; cacher "aperçu de l'image" le JS gèrera l'affichage de l'image*/
-/*To Do : style du bouton valider (gris tant que touts les champs ne sont pas remplis correctement
+/*To Do : style du bouton valider (gris tant que tous les champs ne sont pas remplis correctement
 vert #1D6154 qd tout est ok*/
