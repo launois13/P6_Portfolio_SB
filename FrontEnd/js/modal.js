@@ -56,8 +56,8 @@ function resetPreviewModal() {
     const categorySelect = document.getElementById('categories');
 
     previewImg.src = "./assets/icons/add-image.svg"; // Changer le chemin de l'icône si nécessaire
-    previewImg.style.display = 'block';
-    uploadSetup.style.display = 'none';
+    previewImg.style.display = 'none';
+    uploadSetup.style.display = 'contents';
     titleInput.value = "";
     categorySelect.selectedIndex = 0;
     console.log("pouet")
@@ -132,7 +132,7 @@ function createWork(){
         const previewImg = document.getElementById('image-preview');
         const uploadSetup = document.getElementById('upload-file');
         previewImg.src = URL.createObjectURL(form.elements[0].files[0])
-        // previewresetPreviewModal();Img.style.display = 'block';
+
         previewImg.style.display = 'block'
         uploadSetup.style.display = 'none';
     }, true)
@@ -143,7 +143,7 @@ function createWork(){
         const title = form.elements[1];
         const categoryId = form.elements[2];
 
-        //TODO: Vérifier le titre, l'image et la categorie...
+
 
         // Récupération du token
         const token = sessionStorage.getItem("token");
@@ -160,20 +160,18 @@ function createWork(){
                 "Authorization": `Bearer ${token}`
             },
             body: formData,
-          })
-          .then(response => {
-            const previewImg = document.getElementById('image-preview');
+        })
+        .then(response => {
+            console.log('createWork() response:', response);
             title.value = "";
             document.getElementById('categories').selectedIndex = 0;
-            previewImg.src = "";
-            previewImg.style.display = 'none';
-            document.getElementById('upload-file').style.display = 'flex';
+            const uploadButton = document.getElementById('upload-file');
             console.info(response);
             getWorks(); // Refresh the gallery after deletion
             init();
+            resetPreviewModal();
             const modal = document.getElementById('modal');
-            resetPreviewModal(); // Réinitialiser la modale de prévisualisation était en ligne 171 avant
-            modal.classList.remove('open-modal'); // Fermer la modale après ajout était en ligne 170 avant pas mieux
+            modal.classList.remove('open-modal');
         })
         .catch(error => console.error('Error:', error));
         console.log("ouhlala")
@@ -184,11 +182,13 @@ function createWork(){
 function renderPage(page) {
     const galleryPage = document.getElementById('gallery-page');
     const addPhotoPage = document.getElementById('add-photo-page');
+    const uploadImg = document.getElementById("nav-gallery");
 
     if (page === 'gallery') {
         galleryPage.classList.add('active');
         addPhotoPage.classList.remove('active');
     } else if (page === 'add-photo') {
+        uploadImg.setAttribute("disabled", true);
         galleryPage.classList.remove('active');
         addPhotoPage.classList.add('active');
         createWork();
@@ -228,9 +228,61 @@ const option = document.getElementById("categories");
 // input "valider"
 const uploadImg = document.getElementById("nav-gallery");
 
+function checkImageSize() {
+    const errorImageSize = 'L’image est trop grande';
+    // Check if any file is selected.
+    if (imgUpload.files.length > 0) {
+        // For each file uploaded
+        for (let i = 0; i <= imgUpload.files.length - 1; i++) {
+            const fsize = imgUpload.files.item(i).size;
+            // If the file is greater than 4MB, it's too big
+            if (fsize > 4 * 1024 * 1024) { // 4MB
+                // errorMessages.push(errorImageSize);
+                console.log('Too big');
+                return false;
+            }
+            // Else it's OK
+            else {
+                // errorMessages.filter(message => message !== errorImageSize);
+                console.log('perfect size');
+                return true;
+            }
+        }
+    }
+}
+
+function checkTitle() {
+    const emptyTitle = 'Le titre est vide';
+    if (title.value === "") {
+        // errorMessages.push(emptyTitle);
+        console.log('Empty title');
+        return false;
+    } else {
+        // errorMessages.filter(message => message !== emptyTitle);
+        console.log('perfect title');
+        return true;
+    }
+}
+
+function checkOptions() {
+    const emptyCategory = 'La catégorie n’est pas sélectionnée';
+    if (option.selectedIndex === 0) {
+        // errorMessages.push(emptyCategory);
+        console.log('No category selected');
+        return false;
+    } else {
+        // errorMessages.filter(message => message !== emptyCategory);
+        console.log('perfect category');
+        return true;
+    }
+}
+
 // Check if all fields are filled before allowing to send
 function checkFields() {
-    if (title.value !== "" && option.selectedIndex !== 0 && imgUpload.files.length !== 0) {
+    // Check if any file is selected.
+    if (checkTitle() && checkOptions() && checkImageSize()) {
+        // Empty errorMessages
+        // errorMessages = [];
         uploadImg.removeAttribute("disabled");
     } else {
         uploadImg.setAttribute("disabled", true);
